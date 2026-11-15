@@ -1,0 +1,14 @@
+ipconfig
+ipconfig /all
+ping google.com
+tracert google.com
+pathping google.com
+netstat
+netstat -an
+netstat -ano
+nslookup google.com
+route print
+arp -a
+hostname
+curl https://www.google.com
+curl -I https://www.google.com

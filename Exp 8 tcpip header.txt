@@ -1,0 +1,27 @@
+Step 2: Start the capture
+
+Open Wireshark.
+On the home screen, double-click your active interface, which is the one with a moving graph line next to it (usually Wi-Fi or Ethernet).
+Capture starts immediately.
+
+Step 3: Generate TCP traffic
+
+While capturing, open CMD and run:
+curl http://example.com
+curl -I https://www.google.com
+ping google.com
+
+Step 4: Stop the capture
+
+Click the red square (Stop) button in the toolbar.
+
+Step 5: Filter TCP packets
+
+In the display filter bar at the top, type tcp and press Enter.
+
+Useful extra filters:(type individually)
+
+tcp.flags.syn == 1
+ip.addr == 93.184.216.34
+tcp.port == 80
+

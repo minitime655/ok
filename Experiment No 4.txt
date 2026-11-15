@@ -1,0 +1,17 @@
+copy and paste the below command in Powershell to get the firest and last usable IP (you can find the ip at the very bottom labbled as First Usable & Last Usable ) then paste that both ip in angry ip application
+
+
+Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.254.*' } | ForEach-Object {
+    $b = [System.Net.IPAddress]::Parse($_.IPAddress).GetAddressBytes(); [array]::Reverse($b)
+    $ip = [BitConverter]::ToUInt32($b, 0)
+    $p = $_.PrefixLength
+    $mask = [uint32](4294967296 - [math]::Pow(2, 32 - $p))
+    $net = [uint32]($ip -band $mask)
+    $bc = [uint32]($net + (4294967295 - $mask))
+    $f = { param($n) ((($n -shr 24) -band 255), (($n -shr 16) -band 255), (($n -shr 8) -band 255), ($n -band 255)) -join '.' }
+    "{0} : IP {1}/{2}" -f $_.InterfaceAlias, $_.IPAddress, $p
+    "   Network (First IP)  : " + (& $f $net)
+    "   First Usable        : " + (& $f ($net + 1))
+    "   Last Usable         : " + (& $f ($bc - 1))
+    "   Broadcast (Last IP) : " + (& $f $bc)
+}
